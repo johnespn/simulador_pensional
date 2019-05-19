@@ -20,24 +20,22 @@ export const moneyToStock = (moneyPerStock:number) => (money:number) =>
 export const profitPerWeek = (ACCIONES_POSEIDAS: number) => 
         ACCIONES_POSEIDAS === 0 
             ? 0 
-            // : SMLV * ACCIONES_POSEIDAS /  (TOTAL_ACCIONES * SEMANAS_X_MES ) 
             : ( (ARRIENDO / SEMANAS_X_MES) / TOTAL_ACCIONES ) * ACCIONES_POSEIDAS 
 
 export const operarPeriodo = (acc:holder,current:holder) => {
-        if(acc.week === 0 ) return holderFn(1,1,0)
-        // console.log('acc profit')
-        // console.log(acc)
-        const currentProfit = profitPerWeek(acc.stock)
-
-        return acc.stock >= TOTAL_ACCIONES 
-                ? acc 
-                : holderFn( 
-                        current.week, 
-                        //this will depend if the week is sequentially next otherwise this may vary
-                        acc.stock + 1 + moneyToStock(STOCK_VALUE)( currentProfit) , 
-                        // 1000000, //TESTING ONE MILLION PER WEEK //52 MILL PER YEAR
-                        currentProfit 
-                    )
+    if(acc.week === 0 )return holderFn(1,1,0)
+    
+    const totalOwner = acc.stock >= TOTAL_ACCIONES 
+    if(!totalOwner) console.log(`${acc.week} - ${acc.stock} - ${acc.profit}`)
+    const currentProfit = profitPerWeek(acc.stock)
+    return totalOwner
+            ? acc 
+            : holderFn( 
+                    current.week, 
+                    //this will depend if the week is sequentially next otherwise this may vary
+                    acc.stock + 1 + moneyToStock(STOCK_VALUE)( currentProfit ) , 
+                    currentProfit 
+                )
     }
 
 export function startSim(): void {

@@ -1,6 +1,6 @@
 export const SEMANAS_X_MES = (30/7)
 export const APORTE = 0.16
-export const SMLV = 830000
+export const SMLV = 828116
 export const ARRIENDO = SMLV
 export const VIS = 135 * SMLV
 export const APORTE_MES = SMLV * APORTE
@@ -26,7 +26,9 @@ export const operarPeriodo = (acc:holder,current:holder) => {
     if(acc.week === 0 )return holderFn(1,1,0)
     
     const totalOwner = acc.stock >= TOTAL_ACCIONES 
-    if(!totalOwner) console.log(`${acc.week} - ${acc.stock} - ${acc.profit}`)
+    const interes = ( TOTAL_ACCIONES - acc.stock ) * STOCK_VALUE * (0.006 / SEMANAS_X_MES  )
+    const r = Math.round
+    if(!totalOwner) console.log(`${r(acc.week)} - ${r(acc.stock)} - ${r(acc.profit)} - ${r(interes)}`)
     const currentProfit = profitPerWeek(acc.stock)
     return totalOwner
             ? acc 
